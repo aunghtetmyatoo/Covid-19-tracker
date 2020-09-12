@@ -12,12 +12,15 @@ import Map from "./Map";
 import Table from "./Table";
 import LineGraph from "./LineGraph";
 import { sortData } from "./util";
+import "leaflet/dist/leaflet.css";
 
 function App() {
 	const [countries, setCountries] = useState(["USA", "UK", "Myanmar"]);
 	const [country, setCountry] = useState("worldwide");
 	const [countryInfo, setCountryInfo] = useState({});
 	const [tableData, setTableData] = useState([]);
+	const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+	const [mapZoom, setMapZoom] = useState(3);
 
 	useEffect(() => {
 		const getCountriesData = async () => {
@@ -58,6 +61,8 @@ function App() {
 			.then((data) => {
 				setCountry(countryCode);
 				setCountryInfo(data);
+				setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+				setMapZoom(4);
 			});
 	};
 
@@ -96,18 +101,15 @@ function App() {
 						cases={countryInfo.todayDeaths}
 						total={countryInfo.deaths}
 					/>
-					{/* InfoBox */}
-					{/* InfoBox */}
-					{/* InfoBox */}
 				</div>
 
-				<Map />
+				<Map center={mapCenter} zoom={mapZoom} />
 			</div>
 			<Card className="app__right">
 				<CardContent>
-					<h1>Live Cases by Country</h1>
+					<h3>Live Cases by Country</h3>
 					<Table countries={tableData} />
-					<h1>WorldWide new Cases</h1>
+					<h3>Worldwide new Cases</h3>
 					<LineGraph />
 				</CardContent>
 			</Card>

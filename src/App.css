@@ -32,7 +32,4 @@ body {
 	.app {
 		flex-direction: column;
 	}
-	.app__stats {
-		flex-direction: column;
-	}
 }
